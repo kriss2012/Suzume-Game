@@ -1,0 +1,10 @@
+.gradle/
+build/
+android/.gradle/
+android/build/
+android/app/build/
+*.apk
+*.flat
+*.jks
+**/build/
+**/.gradle/
