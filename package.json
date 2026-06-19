@@ -1,0 +1,27 @@
+{
+  "name": "suzume-doors",
+  "version": "1.0.0",
+  "description": "Suzume - Close the Doors | Fan-made atmospheric game",
+  "main": "Suzume Doors.html",
+  "window": {
+    "title": "Suzume — Close the Doors",
+    "width": 1920,
+    "height": 1080,
+    "min_width": 1280,
+    "min_height": 720,
+    "resizable": true,
+    "fullscreen": false,
+    "frame": true,
+    "show": true,
+    "show_in_taskbar": true,
+    "icon": "assets/icon.png"
+  },
+  "chromium-args": "--autoplay-policy=no-user-gesture-required --enable-webaudio",
+  "scripts": {
+    "start": "nw .",
+    "build": "nwbuild --platforms win64 --buildDir ./release ."
+  },
+  "devDependencies": {
+    "nw-builder": "^4.11.0"
+  }
+}

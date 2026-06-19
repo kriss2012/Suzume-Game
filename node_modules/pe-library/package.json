@@ -1,0 +1,65 @@
+{
+  "name": "pe-library",
+  "version": "2.0.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "description": "Node.js library for Portable Executable format",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./cjs": {
+      "require": "./cjs.cjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "author": "jet",
+  "license": "MIT",
+  "homepage": "https://github.com/jet2jet/pe-library-js",
+  "keywords": [
+    "javascript",
+    "library",
+    "pe",
+    "pe-executable",
+    "portable-executable",
+    "exe"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jet2jet/pe-library-js.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/jet2jet"
+  },
+  "scripts": {
+    "build": "npm run build:esm",
+    "build:esm": "tsc -p ./tsconfig.app.json",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint -c eslint.config.mjs --ext .js,.jsx,.ts,.tsx .",
+    "lint:eslint:fix": "eslint -c eslint.config.mjs --fix --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "npm run lint:eslint:fix && npm run lint:prettier:fix",
+    "lint:prettier": "prettier --config ./.prettierrc.yml --check \"**/*.{js,jsx,ts,tsx,yml,json,md}\"",
+    "lint:prettier:fix": "prettier --config ./.prettierrc.yml --write \"**/*.{js,jsx,ts,tsx,yml,json,md}\"",
+    "test": "jest --config ./jest.config.basic.js",
+    "typecheck": "tsc -p tsconfig.json && echo \"Done.\"",
+    "version": "node ./tools/updateVersion.js ./src/main/version.ts && git add -A ./src/main/version.ts"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "~20.19.22",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-n": "^17.23.1",
+    "eslint-plugin-promise": "^7.2.1",
+    "jest": "^30.2.0",
+    "neostandard": "^0.12.2",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
+    "typescript": "~4.9.5"
+  }
+}

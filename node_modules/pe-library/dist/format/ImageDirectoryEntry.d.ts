@@ -1,0 +1,23 @@
+declare const ImageDirectoryEntry: {
+    readonly Export: 0;
+    readonly Import: 1;
+    readonly Resource: 2;
+    readonly Exception: 3;
+    readonly Certificate: 4;
+    readonly Security: 4;
+    readonly BaseRelocation: 5;
+    readonly Debug: 6;
+    readonly Architecture: 7;
+    readonly GlobalPointer: 8;
+    readonly Tls: 9;
+    readonly TLS: 9;
+    readonly LoadConfig: 10;
+    readonly BoundImport: 11;
+    readonly Iat: 12;
+    readonly IAT: 12;
+    readonly DelayImport: 13;
+    readonly ComDescriptor: 14;
+    readonly COMDescriptor: 14;
+};
+type ImageDirectoryEntry = (typeof ImageDirectoryEntry)[keyof typeof ImageDirectoryEntry];
+export default ImageDirectoryEntry;
