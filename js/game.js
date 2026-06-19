@@ -297,5 +297,14 @@
   syncSound();
 
   showTitle();
+  
+  // Hide loading screen after initialization
+  const loader = document.getElementById('loading-screen');
+  if (loader) {
+    setTimeout(() => {
+      loader.classList.add('fade-out');
+    }, 1200); // 1.2s delay to display the loading animation beautifully
+  }
+
   window.__suzume={ startLevel, showVictory, playDoorOpen, openMinigame };
 })();
