@@ -1,0 +1,254 @@
+/* ——— Suzume Enhanced Additions ——— */
+
+/* Particle canvas layer */
+#particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6;}
+
+/* Sakura petals */
+.petal-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+.sakura-petal{
+  position:absolute;border-radius:60% 40% 50% 60% / 40% 60% 40% 60%;
+  background:linear-gradient(135deg,rgba(255,200,210,.7),rgba(255,170,190,.4));
+  animation:sakura-fall linear infinite;
+  box-shadow:0 0 8px rgba(255,150,180,.3);
+}
+@keyframes sakura-fall{
+  0%{transform:rotate(0deg) translateY(-40px);opacity:0;}
+  10%{opacity:.45;}
+  90%{opacity:.3;}
+  100%{transform:rotate(720deg) translateY(1200px) translateX(80px);opacity:0;}
+}
+
+/* Lore panel left side */
+.lore-panel{
+  position:absolute;left:56px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:18px;z-index:5;
+  padding:36px 28px;
+  background:rgba(5,10,20,.52);
+  border:1px solid rgba(141,240,220,.14);
+  border-radius:16px;backdrop-filter:blur(4px);
+  width:260px;
+}
+.lore-seal{width:64px;height:64px;margin:0 auto 6px;}
+.lore-seal svg{width:100%;height:100%;animation:lore-seal-spin 20s linear infinite;}
+@keyframes lore-seal-spin{to{transform:rotate(360deg);}}
+.lore-line{
+  font-size:16px;letter-spacing:.22em;color:rgba(230,239,239,.5);
+  text-transform:uppercase;border-left:2px solid rgba(141,240,220,.2);
+  padding-left:12px;transition:all .3s;
+}
+.lore-line:hover,.lore-final{color:var(--accent);border-left-color:var(--accent);}
+.lore-divider{height:1px;background:rgba(141,240,220,.15);margin:4px 0;}
+.lore-sub{font-size:15px;color:rgba(230,239,239,.38);font-style:italic;line-height:1.6;text-align:center;}
+
+/* Kanji strip right */
+.kanji-strip{
+  position:absolute;right:52px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:4px;z-index:5;
+}
+.kanji-strip span{
+  font-family:var(--jp);font-size:42px;color:rgba(141,240,220,.18);
+  animation:kanji-pulse 4s ease-in-out infinite;
+  text-shadow:0 0 20px rgba(141,240,220,.2);
+}
+.kanji-strip span:nth-child(2){animation-delay:.5s;}
+.kanji-strip span:nth-child(3){animation-delay:1s;}
+.kanji-strip span:nth-child(4){animation-delay:1.5s;}
+@keyframes kanji-pulse{0%,100%{opacity:.18;}50%{opacity:.5;}}
+
+/* Enhanced mascot */
+.mascot-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
+.mascot-glow{
+  position:absolute;width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(141,240,220,.25),transparent 70%);
+  animation:mascot-glow-pulse 2.4s ease-in-out infinite;
+}
+@keyframes mascot-glow-pulse{0%,100%{transform:scale(.9);opacity:.5;}50%{transform:scale(1.15);opacity:1;}}
+.mascot{width:80px;height:80px;animation:mbob 3s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(255,255,255,.4));}
+
+/* Title kicker with rules */
+.title-kicker-wrap{display:flex;align-items:center;gap:20px;}
+.title-rule{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);width:80px;}
+
+/* Title glow effect */
+.title-glow{
+  text-shadow:0 0 60px rgba(141,240,220,.35),0 4px 40px rgba(0,0,0,.7);
+  animation:title-shimmer 5s ease-in-out infinite;
+}
+@keyframes title-shimmer{
+  0%,100%{text-shadow:0 0 60px rgba(141,240,220,.35),0 4px 40px rgba(0,0,0,.7);}
+  50%{text-shadow:0 0 90px rgba(141,240,220,.6),0 0 130px rgba(141,240,220,.2),0 4px 40px rgba(0,0,0,.7);}
+}
+
+/* Enhanced title JP */
+.title-jp{font-size:28px;letter-spacing:.6em;opacity:.75;}
+
+/* Title tagline */
+.title-tagline{
+  font-size:24px;font-style:italic;color:var(--ink-dim);
+  line-height:1.7;max-width:600px;text-align:center;
+}
+
+/* Title actions */
+.title-actions{display:flex;gap:26px;margin-top:10px;}
+
+/* Glowing primary button */
+.btn-glow{
+  position:relative;overflow:hidden;
+}
+.btn-glow::before{
+  content:'';position:absolute;inset:-2px;border-radius:inherit;z-index:-1;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep),var(--gold));
+  opacity:0;transition:opacity .3s;
+}
+.btn-glow:hover::before{opacity:.2;}
+.btn-glow:hover{box-shadow:0 0 40px rgba(141,240,220,.4),0 8px 30px rgba(0,0,0,.4);}
+
+/* Title footer */
+.title-foot{
+  position:absolute;bottom:34px;width:100%;display:flex;
+  justify-content:center;align-items:center;gap:18px;
+  font-size:16px;letter-spacing:.28em;color:rgba(230,239,239,.4);text-transform:uppercase;
+}
+.title-foot-dot{color:var(--accent);opacity:.5;}
+
+/* HUD gate badge */
+.hud-gate-badge{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(7,14,24,.7);border:1.5px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(232,201,138,.3);
+}
+.hud-gate-num{font-size:22px;color:var(--gold);font-family:var(--serif);}
+
+/* Mote layer */
+.mote-layer{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.dust-mote{
+  position:absolute;border-radius:50%;
+  background:rgba(141,240,220,.6);
+  animation:mote-float ease-in-out infinite;
+}
+@keyframes mote-float{
+  0%,100%{transform:translateY(0) scale(1);opacity:.3;}
+  50%{transform:translateY(-28px) scale(1.4);opacity:.7;}
+}
+
+/* Door hotspot particles */
+.door-particles{position:absolute;inset:-30%;pointer-events:none;}
+
+/* Cutscene letterbox bars */
+.cs-letterbox{position:absolute;left:0;right:0;height:60px;background:#000;z-index:2;}
+.cs-top{top:0;} .cs-bot{bottom:0;}
+
+/* Lock stamp circle */
+.stamp-circle{
+  padding:28px 52px;border-radius:50%;
+  background:rgba(7,14,24,.8);border:1px solid var(--accent);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+
+/* Victory extras */
+.victory-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.victory-stars i{
+  position:absolute;top:-10%;width:1.5px;height:70px;border-radius:2px;
+  background:linear-gradient(180deg,transparent,#cfeee6 60%,#fff);
+  opacity:0;transform:rotate(22deg);animation:fallstar 4.5s linear infinite;
+}
+.victory-fireflies{position:absolute;inset:0;pointer-events:none;}
+.firefly{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:rgba(141,240,220,.9);
+  box-shadow:0 0 10px rgba(141,240,220,.8),0 0 20px rgba(141,240,220,.4);
+  animation:firefly-float ease-in-out infinite;
+}
+@keyframes firefly-float{
+  0%{transform:translate(0,0);opacity:0;}
+  20%{opacity:.9;}
+  50%{transform:translate(20px,-30px);}
+  80%{opacity:.6;}
+  100%{transform:translate(-10px,10px);opacity:0;}
+}
+
+/* Victory emblem */
+.victory-emblem{margin-bottom:4px;animation:emblem-rotate 12s linear infinite;}
+@keyframes emblem-rotate{to{transform:rotate(360deg);}}
+
+/* Enhanced card */
+.card{background:rgba(6,12,22,.88);border-color:rgba(141,240,220,.22);}
+.card h2{text-shadow:0 0 30px rgba(141,240,220,.2);}
+
+/* Minigame panel shadow */
+#mg-panel{box-shadow:0 0 80px rgba(0,0,0,.7),0 0 30px rgba(141,240,220,.08);}
+
+/* Improved HUD location text */
+.hud-loc{text-shadow:0 2px 22px rgba(0,0,0,.9),0 0 40px rgba(0,0,0,.5);}
+
+/* Loading Screen Styles */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #070e18;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loading-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.loader-seal {
+  width: 100px;
+  height: 100px;
+}
+.loader-seal svg {
+  width: 100%;
+  height: 100%;
+  animation: loader-spin 4s linear infinite;
+  filter: drop-shadow(0 0 15px rgba(141, 240, 220, 0.4));
+}
+@keyframes loader-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader-bar-bg {
+  width: 240px;
+  height: 4px;
+  background: rgba(141, 240, 220, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.loader-bar {
+  position: absolute;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #8df0dc, transparent);
+  animation: loader-progress-anim 2s infinite linear;
+}
+@keyframes loader-progress-anim {
+  0% { left: -100%; }
+  50% { left: 0%; }
+  100% { left: 100%; }
+}
+.loader-text {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  letter-spacing: 0.3em;
+  color: #e6efef;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(141, 240, 220, 0.3);
+  animation: loader-text-pulse 2s ease-in-out infinite;
+}
+@keyframes loader-text-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
