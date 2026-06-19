@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suzume — Close the Doors</title>
+<meta name="description" content="An atmospheric puzzle-adventure game inspired by Makoto Shinkai's Suzume no Tojimari. Open five sealed doors across a ruined land.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Noto+Serif+JP:wght@300;400;500&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="assets/icon.png" type="image/png">
+<link rel="stylesheet" href="css/suzume.css">
+<link rel="stylesheet" href="css/suzume-enhanced.css">
+</head>
+<body>
+
+<div id="loading-screen">
+  <div class="loader-content">
+    <div class="loader-seal">
+      <svg viewBox="0 0 80 80" aria-hidden="true">
+        <circle cx="40" cy="40" r="36" fill="none" stroke="#8df0dc" stroke-width="1.5" stroke-dasharray="10 5"/>
+        <circle cx="40" cy="40" r="28" fill="none" stroke="#e8c98a" stroke-width="1" stroke-dasharray="15 3"/>
+        <text x="40" y="47" text-anchor="middle" font-family="Noto Serif JP,serif" font-size="20" fill="#8df0dc">扉</text>
+      </svg>
+    </div>
+    <div class="loader-bar-bg">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="loader-text">Closing the ruins...</div>
+  </div>
+</div>
+
+<!-- Ambient particle layer (always behind everything) -->
+<canvas id="particle-canvas"></canvas>
+
+<div id="viewport">
+  <div id="stage">
+
+    <!-- ——— TITLE ——— -->
+    <section class="screen on" id="screen-title" data-screen-label="Title">
+      <div class="bg" style="background-image:url('assets/bg-twilight.png');"></div>
+      <div class="vignette"></div>
+
+      <!-- Floating sakura petals -->
+      <div class="petal-layer" id="petal-layer"></div>
+
+      <!-- Left lore panel -->
+      <div class="lore-panel">
+        <div class="lore-seal">
+          <svg viewBox="0 0 80 80" aria-hidden="true">
+            <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(141,240,220,.35)" stroke-width="1.2"/>
+            <circle cx="40" cy="40" r="28" fill="none" stroke="rgba(141,240,220,.22)" stroke-width="1"/>
+            <text x="40" y="45" text-anchor="middle" font-family="Noto Serif JP,serif" font-size="18" fill="rgba(141,240,220,.65)">扉</text>
+          </svg>
+        </div>
+        <div class="lore-line">Gate 1 · Sunken Greenhouse</div>
+        <div class="lore-line">Gate 2 · Overgrown Springs</div>
+        <div class="lore-line">Gate 3 · Flooded Schoolyard</div>
+        <div class="lore-line">Gate 4 · Water Mirror Crossing</div>
+        <div class="lore-line lore-final">Gate 5 · The Ever-After</div>
+        <div class="lore-divider"></div>
+        <div class="lore-sub">Five sealed doors. One Closer.<br>The stars still fall tonight.</div>
+      </div>
+
+      <!-- Right decorative kanji strip -->
+      <div class="kanji-strip">
+        <span>戸</span><span>締</span><span>ま</span><span>り</span>
+      </div>
+
+      <div class="inner">
+        <div class="titlecard fade-in">
+          <!-- Animated mascot Daijin -->
+          <div class="mascot-wrap">
+            <div class="mascot-glow"></div>
+            <svg class="mascot" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M20 26 L17 9 L27 19 Q32 17 37 19 L47 9 L44 26 Q50 33 48 42 Q46 54 32 56 Q18 54 16 42 Q14 33 20 26 Z" fill="#f4f2ec"></path>
+              <circle cx="26" cy="34" r="2.6" fill="#243038"></circle>
+              <circle cx="38" cy="34" r="2.6" fill="#243038"></circle>
+              <path d="M29 41 Q32 44 35 41" stroke="#243038" stroke-width="1.6" fill="none"></path>
+              <!-- whiskers -->
+              <line x1="14" y1="35" x2="22" y2="34" stroke="#243038" stroke-width="0.8" opacity="0.6"/>
+              <line x1="14" y1="38" x2="22" y2="37" stroke="#243038" stroke-width="0.8" opacity="0.6"/>
+              <line x1="50" y1="35" x2="42" y2="34" stroke="#243038" stroke-width="0.8" opacity="0.6"/>
+              <line x1="50" y1="38" x2="42" y2="37" stroke="#243038" stroke-width="0.8" opacity="0.6"/>
+            </svg>
+          </div>
+
+          <div class="title-kicker-wrap">
+            <div class="title-rule"></div>
+            <div class="kicker">Open the Doors</div>
+            <div class="title-rule"></div>
+          </div>
+
+          <h1 class="big title-glow">Suzume</h1>
+          <div class="jp title-jp">すずめの戸締まり</div>
+
+          <p class="title-tagline">
+            Five sealed doors stand across a ruined land,<br>
+            and beyond each one waits the Ever-After.<br>
+            Pass the gate's trial, and close them — one by one.
+          </p>
+
+          <div class="actions title-actions">
+            <button class="btn primary btn-glow" id="btn-start">Begin the Journey</button>
+            <button class="btn" id="btn-continue" style="display:none;">Continue</button>
+          </div>
+          <div class="actions" style="margin-top:0;">
+            <button class="btn ghost" id="btn-video">Watch the Door Scene</button>
+            <button class="btn ghost" id="btn-sound2">Sound On</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="title-foot">
+        <span>Inspired by Makoto Shinkai's "Suzume no Tojimari"</span>
+        <span class="title-foot-dot">·</span>
+        <span>Fan-made tribute game</span>
+      </div>
+    </section>
+
+    <!-- ——— LEVEL ——— -->
+    <section class="screen" id="screen-level" data-screen-label="Level">
+      <div class="bg" id="level-bg"></div>
+      <div class="ever-stars" id="ever-stars"></div>
+      <div class="vignette"></div>
+
+      <!-- Ambient floating dust motes -->
+      <div class="mote-layer" id="mote-layer"></div>
+
+      <div class="hud">
+        <div class="left">
+          <div class="hud-gate-badge" id="hud-gate-badge">
+            <span class="hud-gate-num" id="hud-gate-num">1</span>
+          </div>
+          <div class="hud-loc" id="hud-loc">Gate 1</div>
+          <div class="hud-jp" id="hud-jp"></div>
+          <div class="charms" id="charms"></div>
+        </div>
+        <div class="right">
+          <button class="iconbtn" id="btn-sound">Sound On</button>
+          <button class="iconbtn" id="btn-quit">← Title</button>
+        </div>
+      </div>
+
+      <div class="door-hotspot" id="door-hotspot" style="display:none;">
+        <div class="door-aura"></div>
+        <div class="door-particles" id="door-particles"></div>
+        <div class="door-edge"></div>
+        <div class="door-hint">Open this Door</div>
+      </div>
+
+      <div id="door-anim">
+        <div class="da-rays"></div>
+        <div class="da-light"></div>
+        <div class="da-frame">
+          <div class="da-portal">
+            <div class="sky"></div>
+            <div class="tint"></div>
+            <div class="twinkle"></div>
+            <div class="twinkle t2"></div>
+          </div>
+          <div class="da-sparks"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="da-leaf">
+            <span class="pane p1"></span>
+            <span class="pane p2"></span>
+            <span class="pane p3"></span>
+            <span class="pane p4"></span>
+            <div class="da-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="level-card" style="display:none;"></div>
+
+      <div id="mg-overlay">
+        <div id="mg-panel">
+          <div id="mg-head">
+            <div id="mg-title"></div>
+            <div id="mg-stat"></div>
+          </div>
+          <div id="mg-body"></div>
+          <div id="mg-instr"></div>
+        </div>
+      </div>
+
+      <div class="fail-tint" id="fail-tint"></div>
+      <div id="lock-flash"></div>
+      <div id="lock-stamp">
+        <div class="stamp-circle">
+          <div class="big">Door Opened</div>
+          <div class="jp">開門</div>
+        </div>
+      </div>
+
+      <div class="progress-doors" id="progress"></div>
+    </section>
+
+    <!-- ——— VICTORY ——— -->
+    <section class="screen" id="screen-victory" data-screen-label="Victory">
+      <div class="bg" style="background-image:url('assets/bg-mountain.png');filter:saturate(1.1);"></div>
+      <div class="vignette"></div>
+
+      <!-- Victory falling stars -->
+      <div class="victory-stars" id="victory-stars"></div>
+      <!-- Firefly lights -->
+      <div class="victory-fireflies" id="victory-fireflies"></div>
+
+      <div class="inner">
+        <div class="victory-shell rise">
+          <div class="victory-emblem">
+            <svg viewBox="0 0 90 90" aria-hidden="true" width="90" height="90">
+              <circle cx="45" cy="45" r="40" fill="none" stroke="rgba(141,240,220,.5)" stroke-width="1.5"/>
+              <circle cx="45" cy="45" r="30" fill="none" stroke="rgba(232,201,138,.35)" stroke-width="1"/>
+              <text x="45" y="51" text-anchor="middle" font-family="Noto Serif JP,serif" font-size="22" fill="rgba(232,201,138,.8)">扉</text>
+            </svg>
+          </div>
+          <div class="kicker" id="victory-kicker">All five doors are sealed</div>
+          <h1 class="big" id="victory-headline" style="font-size:72px;">The morning comes</h1>
+          <p class="quote" id="victory-quote" style="max-width:900px;">"No matter how long the night, dawn will come.<br>We will meet again."</p>
+          <div class="victory-stats" id="victory-stats"></div>
+          <p class="victory-copy" id="victory-copy">The Ever-After is quiet again, and every door you touched now rests in peace.</p>
+          <div class="videoframe"><video id="victory-vid" playsinline controls></video></div>
+          <div class="actions" style="display:flex;gap:24px;">
+            <button class="btn primary btn-glow" id="btn-again">Open Them Again</button>
+            <button class="btn ghost" id="btn-title">Return to Title</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ——— VIDEO MODAL ——— -->
+    <div id="video-modal">
+      <div class="videoframe"><video id="modal-vid" playsinline controls></video></div>
+      <button class="btn ghost" id="btn-close-video">Close</button>
+    </div>
+
+    <!-- ——— CUTSCENE ——— -->
+    <div id="cutscene">
+      <div class="cs-letterbox cs-top"></div>
+      <div class="cs-frame"><video id="cs-vid" playsinline></video></div>
+      <div class="cs-bar">
+        <div class="cs-cap" id="cs-cap"></div>
+        <button class="btn primary" id="cs-skip">Enter the Gate ›</button>
+      </div>
+      <div class="cs-letterbox cs-bot"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/audio.js"></script>
+<script src="js/minigames.js"></script>
+<script src="js/game.js"></script>
+<script src="js/particles.js"></script>
+</body>
+</html>
