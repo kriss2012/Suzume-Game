@@ -27,6 +27,5 @@ if __name__ == '__main__':
         resizable  = True,
         fullscreen = False,
         min_size   = (1280, 720),
-        icon       = icon_path if os.path.exists(icon_path) else None,
     )
-    webview.start(gui='edgechromium')
+    webview.start(gui='edgechromium', icon=icon_path if os.path.exists(icon_path) else None)
