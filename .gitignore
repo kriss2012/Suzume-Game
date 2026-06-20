@@ -4,6 +4,7 @@ android/.gradle/
 android/build/
 android/app/build/
 *.apk
+*.aab
 *.flat
 *.jks
 **/build/
