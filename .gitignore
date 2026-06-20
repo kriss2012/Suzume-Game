@@ -8,3 +8,5 @@ android/app/build/
 *.jks
 **/build/
 **/.gradle/
+.idea/
+local.properties
